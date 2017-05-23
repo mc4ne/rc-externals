@@ -1,0 +1,5 @@
+input files for EXTERNAL: runplan/target/output
+input/grids/eg1b.inp
+input/targets/eg1b.targ
+output/externals/eg1b_details.out
+

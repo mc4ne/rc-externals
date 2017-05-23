@@ -1,0 +1,185 @@
+ 1                         ! par #   crt iter.  2 chisq = 19813.01852635561
+ .15                       ! par Value
+ .0                        ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 2                         ! par # 
+ 1.21009789291241          ! par Value
+ 1.000000000000000E-04     ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 3                         ! par # 
+ 1.50887081923084          ! par Value
+ 1.000000000000000E-04     ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 4                         ! par # 
+ 1.67531445764029          ! par Value
+ 1.000000000000000E-04     ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 5                         ! par # 
+ .1655907201248336         ! par Value
+ 1.000000000000000E-04     ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 6                         ! par # 
+ .133000291091127          ! par Value
+ 1.000000000000000E-04     ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 7                         ! par # 
+ .1911119002300033         ! par Value
+ 1.000000000000000E-04     ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 8                         ! par # 
+ .0                        ! par Value
+ .0                        ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 9                         ! par # 
+ -1.330470281724684E-03    ! par Value
+ 1.000000000000000E-03     ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 10                        ! par # 
+ 9.040223893989094E-03     ! par Value
+ 1.000000000000000E-03     ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 11                        ! par # 
+ 88.30992903725491         ! par Value
+ 1.0                       ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 12                        ! par # 
+ 179.8347393923863         ! par Value
+ 1.0                       ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 13                        ! par # 
+ -49.3425056335804         ! par Value
+ 1.0                       ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 14                        ! par # 
+ 4.4193450027594           ! par Value
+ 1.0                       ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 15                        ! par # 
+ 17.27636092855667         ! par Value
+ 1.0                       ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 16                        ! par # 
+ 14.53932846498824         ! par Value
+ 1.0                       ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 17                        ! par # 
+ .0                        ! par Value
+ .0                        ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 18                        ! par # 
+ .0                        ! par Value
+ .0                        ! initial step ( 0 == fixed)
+ -.1                       ! low limit
+ .1                        ! high limit
+ 19                        ! par # 
+ 10.57118592430828         ! par Value
+ 1.0                       ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 20                        ! par # 
+ 17.87572139241302         ! par Value
+ 1.0                       ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 21                        ! par # 
+ .0                        ! par Value
+ .0                        ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 22                        ! par # 
+ .0                        ! par Value
+ .0                        ! initial step ( 0 == fixed)
+ -.1                       ! low limit
+ .1                        ! high limit
+ 23                        ! par # 
+ -1596.5721937936          ! par Value
+ 10.0                      ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 24                        ! par # 
+ 3161.633697965292         ! par Value
+ 10.0                      ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 25                        ! par # 
+ -1294.66159558155         ! par Value
+ 10.0                      ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 26                        ! par # 
+ 3765.484298301264         ! par Value
+ 10.0                      ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 27                        ! par # 
+ -5091.14959697742         ! par Value
+ 10.0                      ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 28                        ! par # 
+ 1484.651653501792         ! par Value
+ 10.0                      ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 29                        ! par # 
+ 1854.482715206398         ! par Value
+ 10.0                      ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 30                        ! par # 
+ 1327.570313162241         ! par Value
+ 10.0                      ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 31                        ! par # 
+ -905.283320201814         ! par Value
+ 10.0                      ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 32                        ! par # 
+ -203.586041619149         ! par Value
+ 10.0                      ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 33                        ! par # 
+ -248.854344079424         ! par Value
+ 10.0                      ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 34                        ! par # 
+ 285.238444525795          ! par Value
+ 10.0                      ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 35                        ! par # 
+ 1.66912331906632          ! par Value
+ 10.0                      ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 36                        ! par # 
+ 25.99582634107081         ! par Value
+ 10.0                      ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit
+ 37                        ! par # 
+ -24.5008434653339         ! par Value
+ 10.0                      ! initial step ( 0 == fixed)
+ .0                        ! low limit
+ .0                        ! high limit

@@ -1,0 +1,26 @@
+EXTERNAL/TSAI:  VERSION OF 8/8/96
+
+#                                                                       
+#                                                                       
+#                                                                       
+C 1%                                                                    
+Rosen07                                                                 
+
+----*----1----*----2----*----3----*----4----*----5----*----6----*----7--
+                                                                        
+
+TARGET (iZ,iA) = (  6, 12);   avgA =  12.000; amuM= 12.002; avgM= 11.180
+ targ=inary  ; ttarg(rl)=0.02090; twall=0.00000; tbeam=0.00000; tspec=0.00687
+         Nseg  =   2
+ MODELS: P elastc(ikk)=15; deut elastic=13; inelastc=  4; Pauli Supresion= 1
+ NUCLEAR METHOD= 1;   NUCLEAR_MODEL= 1
+
+    E1    TH    Q2 COS_K         SMR     NUC          INT-SMR
+    EP     X    W2 QE-PK  INELA  Q-ELA  ELAST   TOTAL  MODEL
+
+  3.12  0.83 11.00  5.07 0.550E+04  0.00  0.00  1.00  2.01  0.48  1.39
+  3.12  0.85 11.00  5.03 0.558E+04  0.00  0.00  1.00  1.80  0.47  1.38
+  3.12  0.87 11.00  4.99 0.566E+04  0.00  0.00  1.00  1.61  0.45  1.38
+  0.000 0.000  0.000 .000  0.00  0.00  0.00  0.00  0.00  0.00 0.000
+                           0.00  0.00  0.00  0.00  0.00  0.00 0.000E+00
+

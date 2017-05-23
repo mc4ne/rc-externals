@@ -1,0 +1,81 @@
+externals_2017.f
+  -Program to calculate measured cross sections
+  -Input files
+    --input/cross-sec-data/*: cross section data for fits & interpolations
+    --input/d2model/parms.dat: parameters for d2model
+    --input/externals/externals.inp: list of i/o files which are fed into externals_2017.f 
+    --input/grids/*.inp: Input kinematics file listing variables: E0, Ep, theta, W2, Q2
+    --input/targets/*.targ: Contains target & input parameters for the externals code
+   
+  -Output files:
+    --output/externals/externals.out: Output file from externals code with radiative corrections
+    --output/externals/*.out: Output file from externals code with diagnostics information
+
+externals.inp
+  -List of i/o files which are fed into externals_2017.f 
+  -The first line is a comment
+  -Dependent files:
+    --eg1b.inp (second line)
+      ---EXTERNAL_RUNPLAN (UNIT=7)
+      ---Input kinematics file listing variables: E0, Ep, theta, W2, Q2 -> make_grid.C prints these
+      ---Code assumes that first six lines of file are comments. This reading is done in 
+         subroutine READIN_EXT
+      ---Only E0, Ep, and theta are read in by the externals code, W2 and Q2 
+         are supplemental information for the user
+    --eg1b.targ (third line)
+      ---EXTERNAL_TARGET (UNIT=5)
+      ---Contains input parameters for the externals code
+      ---Has a very specific format read (see subroutine READIN_EXT) so must be careful about format
+      ---First 3 line read into COMMENT array then skips a line
+      ---5th and 6th lines read in IA and IZ with format 15x,i5 then skips a line
+        ----IA and IZ are the atomic number and charge of target.
+      ---8th and 9th lines read in AVGA and AVGM with format 15x,f14.8 then skips a line
+        ----If AVGA and AVGM are zero then calculated in subroutine weiz. For A>4 uses
+	    the Weisacker mass formula. 
+      ---11th line reads in TARGET with format 20x,A7 then skips a line
+        ----TARGET is used for specific experiments hardwired in the code to set the target
+       	    radiation lengths in subroutine RADIATORS. If set to "readin" ( or any name
+	    that is not hadrcoded in subroutine RADIATORS) , the radiation
+	    lengths are set from input ttarg,twall,tbeam,tspec
+	    Also the variable SMRDEP is set differently from default for certain experiments.
+      ---13th-16th line reads in ttarg,twall,tbeam,tspec with format 15x,f14.8
+      ---17th lines reads NSEG with format 15x,i5 then skips 2 lines
+        ----NSEG sets number of segments for the SIMPSON rule integration. Nseg must be EVEN.
+      ---20th line reads IG  with format 15x,i5 then  skips a line
+        ----IG selects the elastic proton form factor model 
+	    in subroutine NFORM ( see NFORM for list)
+	    IG=15 use Bosted fit. Should be updated with more recent parametrizations.
+      ---22nd line reads IDUT with format 15x,i5
+        ----IDUT selects the elastic deuteron form factor model in subroutine NUC_FORM_FACTOR
+      ---23nd line reads INEL_MODEL with format 15x,i5
+        ----INEL_MODEL selects inelastic cross section model in INELAST.
+	    INEL_MODEL = 4 selects F1F209 . Best option. Many older models available. 
+      ---24th line reads PAULI_MODEL  with format 15x,i5
+        ----PAULI_MODEL sets model in subroutine PAULI_SUPPRESSION.
+            0 = old stein model; 1 = tsai model; 2 no suppression
+            F1F2QE09 uses Pauli suppression model from Tsai RMP 46,816(74) eq.B54
+      ---25th line reads NUC_METHOD  with format 15x,i5
+        ----UC_METHOD 0=No cos(theta_k) integration; 1= cos(th_k) integration
+      ---26th line reads NUC_MODEL with format 15x,i5
+	----NUC_MODEL not used if INEL_MODEL=4.
+    --output/externals/*.out (fourth line)
+      ---EXTERNAL_OUT (UNIT=10)
+      ---Output file from externals code with diagnostics information. 
+      ---Has the table of kinematics and radiatied cross sections.
+      ---Contains the following variables: beam energy, scattered electron energy, 
+         scattered electron angle, x, q2, SIGMA_BORN+SIGMA_CORR, 
+   	 sigma_qela(2) + sigma_elpk(2) + sigma_inel(2), sigma_elpk(2), sigma_qela(2), sigma_inel(2),
+	 SIGMA_BORN, iesv, iqsv, iwsv, sigma_qela(1) + sigma_elpk(1) + sigma_inel(1), sigma_elastic
+      ---Note: the variables iesv, iqsv, iwsv are filled when doeg1b flag is set to true 
+
+make_grid.C
+  -Defines the grid for rad-corr, writes an input file (*.inp) containing the 
+  variables: E0, E, theta, W2, Q2 based on energy steps in scattered beam energy and angle
+  -The produced input file is read by the externals_2017.f script
+
+make_rc_dat.C
+  -Converts the output from extern.out in to the *.dat format that is required for the
+  Monte-Carlo re-weighting code
+
+Flow: ./run_externals.sh -> ./make_grid -> ./externals_2017 -> ./make_rc_dat
+
