@@ -2,7 +2,8 @@ my_objs     = externals_2017.o
 my_grid_obj = make_grid.o
 my_rc_obj   = make_rc_dat.o
 
-CERNLIBS = /apps/cernlib/x86_64_rhel7/2005/lib -lmathlib 
+#CERNLIBS = /apps/cernlib/x86_64_rhel7/2005/lib -lmathlib 
+CERNLIBS = /u/site/cernlib/x86_64_rhel7/2005/lib -lmathlib
 
 FFLAGSA = -C -g -w -fno-automatic -fbounds-check -ffixed-line-length-132 -finit-local-zero 
 INCLUDES = -I.
