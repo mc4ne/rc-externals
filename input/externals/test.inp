@@ -1,4 +1,4 @@
 input files for EXTERNAL: runplan/target/output
-input/grids/test.inp
+input/grids/test_grid.inp
 input/targets/kpp_shms_488.targ
 output/externals/test_details.out
