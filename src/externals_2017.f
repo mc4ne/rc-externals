@@ -128,7 +128,8 @@ c      write(6,'(''A b='',e11.3)') b
       call ARENHOVEL_INIT()
 
 c      write(6,'(1x,''got here'')')
-      open(unit=17,file='output/externals/kpp_shms_488.out')
+c      open(unit=17,file='output/externals/kpp_shms_488.out')
+      open(unit=17,file='output/externals/test.out')
 c      open(unit=18,file='louk.out')
 c      open(unit=19,file='ratioy.top')
 c      open(unit=29,file='ratiow2.top')
@@ -4386,7 +4387,8 @@ c      SUBROUTINE READIN_EXT(LEN_FILENAME,FILENAME)
 
 
 c      OPEN(UNIT=20,FILE=FILENAME(1:LEN_FILENAME))
-      OPEN(UNIT=20,FILE='input/externals/kpp_shms_488.inp')
+c      OPEN(UNIT=20,FILE='input/externals/kpp_shms_488.inp')
+      OPEN(UNIT=20,FILE='input/externals/test.inp')
       READ(20,'(A)') COMMENT(1)
       WRITE(6,'(A)') COMMENT(1)
       READ(20,'(A)') EXTERNAL_RUNPLAN
