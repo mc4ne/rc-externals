@@ -1333,6 +1333,7 @@ C=======================================================================
       REAL DELP1,DEL01,DEL02,DELP2,DELP,TBEFOR,TAFTER,TAAL,TBAL,
      >  TEQUI,DEL0,T,x_end,ztarg,cryo_cm,wall_cm,cell_diam,
      >  cell_wall
+      REAL ECIR,ECOR,ENTEC,TARGLEN,tcm
       COMMON /TTYPE/ TARGET                                             
       CHARACTER*7    TARGET                                             
       save                                                                        
@@ -1513,6 +1514,84 @@ c       actual density and material of target
         if(nprnt.le.6) write(*,123) tbal,tbefor,tafter,taal,cryo_cm
  123    format(1x,'TUNA rad len=',5f10.5)
       endif
+
+      IF(INDEX(TARGET,'CRYO17').GT.0) THEN     ! target geometry for
+                                               ! 10 cm LH2 and LD2
+        ECIR=1.315*2.54                        ! endcap inner radius (cm
+        ECOR=1.320*2.54                        ! endcap outer radius (cm
+        TARGLEN=3.942*2.54                     ! target length (cm
+        ENTEC=TARGLEN-ECIR                     ! entrance to end cap (cm
+        TBAL=TBEAM                             ! material bf the target
+        TBEFOR=T                               ! distance traveled bf
+                                               ! vertex
+        tcm=t*targlen/ttarg                    ! t in cm
+        
+        if((tcm+ECIR/tan(thr)).lt.ENTEC) then  ! e goes through sidewall
+          TAFTER=ECIR*ttarg/sin(thr)/targlen   ! liquid target
+          TAAL=TSPEC+TWALL/sin(thr)            ! material af the target 
+                                               ! & side wall
+        else
+          TAFTER=                              ! e goes throught end cap
+     >     (sqrt(ECIR**2-((targlen-ECIR-tcm)*sin(thr))**2)
+     >    +(targlen-ECIR-tcm)*cos(thr))*ttarg/targlen ! liquid target
+          TAAL=TSPEC                           ! material af the target
+     >    +(sqrt(ECOR**2-((targlen-ECIR-tcm)*sin(thr))**2)
+     >    -sqrt(ECIR**2-((targlen-ECIR-tcm)*sin(thr))**2))
+     >    *TWALL/(ECOR-ECIR)                   ! & end cap
+        endif
+      ENDIF
+
+      IF(INDEX(TARGET,'10OLD17').GT.0) THEN    ! target geometry for
+                                               ! old 10 cm LH2 and LD2
+        ECIR=0.795*2.54                        ! endcap inner radius (cm
+        ECOR=0.800*2.54                        ! endcap outer radius (cm
+        TARGLEN=10                             ! target length (cm
+        ENTEC=TARGLEN-ECIR                     ! entrance to end cap (cm
+        TBAL=TBEAM                             ! material bf the target
+        TBEFOR=T                               ! distance traveled bf
+                                               ! vertex
+        tcm=t*targlen/ttarg                    ! t in cm
+
+        if((tcm+ECIR/tan(thr)).lt.ENTEC) then  ! e goes through sidewall
+          TAFTER=ECIR*ttarg/sin(thr)/targlen   ! liquid target
+          TAAL=TSPEC+TWALL/sin(thr)            ! material af the target 
+                                               ! & side wall
+        else
+          TAFTER=                              ! e goes throught end cap
+     >     (sqrt(ECIR**2-((targlen-ECIR-tcm)*sin(thr))**2)
+     >    +(targlen-ECIR-tcm)*cos(thr))*ttarg/targlen ! liquid target
+          TAAL=TSPEC                           ! material af the target
+     >    +(sqrt(ECOR**2-((targlen-ECIR-tcm)*sin(thr))**2)
+     >    -sqrt(ECIR**2-((targlen-ECIR-tcm)*sin(thr))**2))
+     >    *TWALL/(ECOR-ECIR)                   ! & end cap
+        endif
+      ENDIF
+
+      IF(INDEX(TARGET,'4OLD17').GT.0) THEN     ! target geometry for
+                                               ! old 4 cm LH2 and LD2
+        ECIR=0.795*2.54                        ! endcap inner radius (cm
+        ECOR=0.800*2.54                        ! endcap outer radius (cm
+        TARGLEN=4                              ! target length (cm
+        ENTEC=TARGLEN-ECIR                     ! entrance to end cap (cm
+        TBAL=TBEAM                             ! material bf the target
+        TBEFOR=T                               ! distance traveled bf
+                                               ! vertex
+        tcm=t*targlen/ttarg                    ! t in cm
+
+        if((tcm+ECIR/tan(thr)).lt.ENTEC) then  ! e goes through sidewall
+          TAFTER=ECIR*ttarg/sin(thr)/targlen   ! liquid target
+          TAAL=TSPEC+TWALL/sin(thr)            ! material af the target 
+                                               ! & side wall
+        else
+          TAFTER=                              ! e goes throught end cap
+     >     (sqrt(ECIR**2-((targlen-ECIR-tcm)*sin(thr))**2)
+     >    +(targlen-ECIR-tcm)*cos(thr))*ttarg/targlen ! liquid target
+          TAAL=TSPEC                           ! material af the target
+     >    +(sqrt(ECOR**2-((targlen-ECIR-tcm)*sin(thr))**2)
+     >    -sqrt(ECIR**2-((targlen-ECIR-tcm)*sin(thr))**2))
+     >    *TWALL/(ECOR-ECIR)                   ! & end cap
+        endif
+      ENDIF
 
       ATBX0 = AX0*TBEFOR+AX0A*TBAL                                      
       ATAX0 = AX0*TAFTER+AX0A*TAAL                                      
