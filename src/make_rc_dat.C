@@ -6,6 +6,11 @@
 #include <cmath>
 using namespace std;
 
+// Declare constants
+static const double pi = 3.14159;
+static const double deg2rad = pi/180.;
+static const double Mp = 0.9384;  // GeV
+
 // Declare variables
 ifstream externalsOut;
 ofstream radCorrFile;
@@ -13,7 +18,12 @@ string   externalsOutName, radCorrFileName;
 string externalsOutPath ("output/externals/");
 string radCorrOutPath   ("output/rad-corr-data/");
 
-double E0, Ep, theta, sigmaBorn, sigmaRad, corrFactor, dummy;
+double E0, Ep, theta, sigmaBorn, sigmaRad, corrFactor, dummy, w2;
+
+// Invariant mass
+double calc_W2(double E0, double Ep, double theta) {
+  return pow(Mp, 2.) + 2.*Mp*(E0 - Ep) - 4.*E0*Ep*pow(sin(0.5*theta*deg2rad), 2.);
+}
 
 int main() {
 
@@ -61,7 +71,3 @@ int main() {
 
 }  // main
 
-// Invariant mass
-  double calc_W2(double E0, double Ep, double theta) {
-    return pow(Mp, 2.) + 2.*Mp*(E0 - Ep) - 4.*E0*Ep*pow(sin(0.5*theta*deg2rad), 2.);
-  }
