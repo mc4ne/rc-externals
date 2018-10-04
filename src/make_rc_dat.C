@@ -6,6 +6,11 @@
 #include <cmath>
 using namespace std;
 
+// Declare constants
+static const double pi = 3.14159;
+static const double deg2rad = pi/180.;
+static const double Mp = 0.9384;  // GeV
+
 // Declare variables
 ifstream externalsOut;
 ofstream radCorrFile;
@@ -13,7 +18,12 @@ string   externalsOutName, radCorrFileName;
 string externalsOutPath ("output/externals/");
 string radCorrOutPath   ("output/rad-corr-data/");
 
-double E0, Ep, theta, sigmaBorn, sigmaRad, corrFactor, dummy;
+double E0, Ep, theta, sigmaBorn, sigmaRad, corrFactor, dummy, w2;
+
+// Invariant mass
+double calc_W2(double E0, double Ep, double theta) {
+  return pow(Mp, 2.) + 2.*Mp*(E0 - Ep) - 4.*E0*Ep*pow(sin(0.5*theta*deg2rad), 2.);
+}
 
 int main() {
 
@@ -39,6 +49,7 @@ int main() {
 
   dummy = 0.0; E0 = 0.0; Ep = 0.0; theta = 0.0; 
   sigmaBorn = 0.0; sigmaRad = 0.0; corrFactor = 0.0;
+  w2 = 0.0;
    while (!externalsOut.eof()) {
   // while (externalsOut >> E0 >> Ep >> theta >> dummy >> dummy >> sigmaBorn >> sigmaRad
   // 	 >> dummy >> dummy >> dummy >> dummy >> dummy >> dummy
@@ -49,7 +60,8 @@ int main() {
   		 >> dummy >> dummy >> dummy;
     if (externalsOut.eof()) break;
     corrFactor = sigmaBorn / sigmaRad;
-    radCorrFile << fixed << setprecision(3) << E0 << "\t" << Ep << "\t" << theta << "\t" 
+    w2=calc_W2(E0,Ep,theta);
+    radCorrFile << fixed << setprecision(3) << E0 << "\t" << w2 << "\t" << theta << "\t" 
   	     << setprecision(5) << sigmaBorn << "\t" << corrFactor << endl;
   } 
 
@@ -58,3 +70,4 @@ int main() {
   return 0;
 
 }  // main
+
