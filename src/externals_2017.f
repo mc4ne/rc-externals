@@ -129,7 +129,45 @@ c      write(6,'(''A b='',e11.3)') b
 
 c      write(6,'(1x,''got here'')')
 c      open(unit=17,file='output/externals/kpp_shms_488.out')
-      open(unit=17,file='output/externals/test.out')
+c      open(unit=17,file='output/externals/single_point_short.out')
+c      open(unit=17,file='output/externals/single_point_pol_3He.out')
+c      open(unit=17,file='output/externals/test_A1nd2n_hms.out')
+c      open(unit=17,file='output/externals/test_A1nd2n_shms.out')
+c      open(unit=17,file='output/externals/test_dflay_hms.out')
+c      open(unit=17,file='output/externals/test_dflay_shms.out')
+c      open(unit=17,file='output/externals/N2_ref_hms_4.out')
+c      open(unit=17,file='output/externals/N2_ref_shms_B.out')
+c      open(unit=17,file='output/externals/Empty_up_win_test_hms_4.out')
+c      open(unit=17,file='output/externals/Empty_up_win_test_shms_B.out')
+c      open(unit=17,file='output/externals/Empty_up_win_O_hms_4.out')
+c      open(unit=17,file='output/externals/Empty_up_win_O_shms_B.out')
+c      open(unit=17,file='output/externals/Empty_up_win_Si_hms_4.out')
+c      open(unit=17,file='output/externals/Empty_up_win_Si_shms_B.out')
+c      open(unit=17,file='output/externals/Empty_up_win_Ba_hms_4.out')
+c      open(unit=17,file='output/externals/Empty_up_win_Ba_shms_B.out')
+c      open(unit=17,file='output/externals/Empty_up_win_Al_hms_4.out')
+c     open(unit=17,file='output/externals/Empty_up_win_Al_shms_B.out')
+c      open(unit=17,file='output/externals/Empty_up_win_Ca_hms_4.out')
+c      open(unit=17,file='output/externals/Empty_up_win_Ca_shms_B.out')
+c      open(unit=17,file='output/externals/Empty_up_win_Sr_hms_4.out')
+c      open(unit=17,file='output/externals/Empty_up_win_Sr_shms_B.out')
+      open(unit=17,file='output/externals/Empty_up_win_H_hms_4.out')
+c      open(unit=17,file='output/externals/Empty_up_win_H_shms_B.out')
+c      open(unit=17,file='output/externals/Empty_down_win_O_hms_4.out')
+c      open(unit=17,file='output/externals/Empty_down_win_O_shms_B.out')
+c      open(unit=17,file='output/externals/Empty_down_win_Si_hms_4.out')
+c      open(unit=17,file='output/externals/Empty_down_win_Si_shms_B.out')
+c      open(unit=17,file='output/externals/Empty_down_win_Ba_hms_4.out')
+c      open(unit=17,file='output/externals/Empty_down_win_Ba_shms_B.out')
+c      open(unit=17,file='output/externals/Empty_down_win_Al_hms_4.out')
+c      open(unit=17,file='output/externals/Empty_down_win_Al_shms_B.out')
+c      open(unit=17,file='output/externals/Empty_down_win_Ca_hms_4.out')
+c      open(unit=17,file='output/externals/Empty_down_win_Ca_shms_B.out')
+c      open(unit=17,file='output/externals/Empty_down_win_Sr_hms_4.out')
+c      open(unit=17,file='output/externals/Empty_down_win_Sr_shms_B.out')
+c      open(unit=17,file='output/externals/Empty_down_win_H_hms_4.out')
+c      open(unit=17,file='output/externals/Empty_down_win_H_shms_B.out')
+
 c      open(unit=18,file='louk.out')
 c      open(unit=19,file='ratioy.top')
 c      open(unit=29,file='ratiow2.top')
@@ -1333,7 +1371,7 @@ C=======================================================================
       REAL DELP1,DEL01,DEL02,DELP2,DELP,TBEFOR,TAFTER,TAAL,TBAL,
      >  TEQUI,DEL0,T,x_end,ztarg,cryo_cm,wall_cm,cell_diam,
      >  cell_wall
-      REAL ECIR,ECOR,ENTEC,TARGLEN,tcm
+      REAL ECIR,ECOR,ENTEC,TARGLEN,tcm,c_1,c_2,rho_tar,ang_b
       COMMON /TTYPE/ TARGET                                             
       CHARACTER*7    TARGET                                             
       save                                                                        
@@ -1540,6 +1578,141 @@ c       actual density and material of target
      >    *TWALL/(ECOR-ECIR)                   ! & end cap
         endif
       ENDIF
+
+      IF(INDEX(TARGET,'SMALLRL').GT.0) THEN     ! Small radiation length
+        TBAL=TBEAM                             ! material bf the target
+        TBEFOR=T
+        TAFTER=ttarg
+        TAAL=TSPEC                               
+        
+      ENDIF
+
+      IF(INDEX(TARGET,'A1ND2NPROD').GT.0) THEN     ! target geometry for
+                                               ! pol 3He cell
+        ECIR=(0.87/2)*2.54-0.15                ! endcap inner radius (cm
+        ECOR=ECIR+0.015                        ! endcap outer radius (cm
+        TARGLEN=40.0                           ! target length (cm
+        c_1=1.38091E-5                         !up win thickness change
+        c_2=0.110839                           !up win thickness change                                                
+        ENTEC=TARGLEN-ECIR                     ! entrance to end cap (cm
+        TBAL=TBEAM                             ! material bf the target
+        TBEFOR=T                               ! distance traveled bf
+                                               ! vertex
+        tcm=(t*targlen/ttarg)+(targlen/2.0)    ! t in cm
+        if(tcm.lt.0) tcm=0
+        if(tcm.gt.targlen) tcm=targlen
+
+        if((tcm+ECIR/tan(thr)).lt.ENTEC) then  ! e goes through sidewall
+          TAFTER=ECIR*ttarg/sin(thr)/targlen   ! gas target
+          TAAL=TSPEC+TWALL/sin(thr)            ! material af the target 
+                                               ! & side wall
+        else
+          rho_tar=(sqrt(ECOR**2-((targlen-ECIR-tcm)*sin(thr))**2) 
+     >    +(targlen-ECIR-tcm)*cos(thr))*sin(thr)!distance away tar center
+          TAFTER=                              ! e goes throught end cap
+     >     (sqrt(ECIR**2-((targlen-ECIR-tcm)*sin(thr))**2)
+     >    +(targlen-ECIR-tcm)*cos(thr))*ttarg/targlen !gas target
+          TAAL=TSPEC                           ! material af the target
+     >    +(sqrt((ECOR+c_1*exp(rho_tar/c_2))**2
+     >    -((targlen-ECIR-tcm)*sin(thr))**2)
+     >    -sqrt(ECIR**2-((targlen-ECIR-tcm)*sin(thr))**2))
+     >    /7.04                                ! & end cap
+        endif
+      ENDIF
+
+      IF(INDEX(TARGET,'A1ND2NREFN2').GT.0) THEN     ! target geometry for
+                                               ! pol 3He cell
+        ECIR=(0.87/2)*2.54-0.15                ! endcap inner radius (cm
+        ECOR=ECIR+0.015                        ! endcap outer radius (cm
+        TARGLEN=40.0                           ! target length (cm
+        c_1=1.38091E-5                         !up win thickness change
+        c_2=0.110839                           !up win thickness change                                                
+        ENTEC=TARGLEN-ECIR                     ! entrance to end cap (cm
+        TBAL=TBEAM                             ! material bf the target
+        TBEFOR=T                               ! distance traveled bf
+                                               ! vertex
+        tcm=(t*targlen/ttarg)+(targlen/2.0)    ! t in cm
+        if(tcm.lt.0) tcm=0
+        if(tcm.gt.targlen) tcm=targlen
+
+        if((tcm+ECIR/tan(thr)).lt.ENTEC) then  ! e goes through sidewall
+          TAFTER=ECIR*ttarg/sin(thr)/targlen   ! gas target
+          TAAL=TSPEC+TWALL/sin(thr)            ! material af the target 
+                                               ! & side wall
+        else
+          rho_tar=(sqrt(ECOR**2-((targlen-ECIR-tcm)*sin(thr))**2) 
+     >    +(targlen-ECIR-tcm)*cos(thr))*sin(thr)!distance away tar center
+          TAFTER=                              ! e goes throught end cap
+     >     (sqrt(ECIR**2-((targlen-ECIR-tcm)*sin(thr))**2)
+     >    +(targlen-ECIR-tcm)*cos(thr))*ttarg/targlen !gas target
+          TAAL=TSPEC                           ! material af the target
+     >    +(sqrt((ECOR+c_1*exp(rho_tar/c_2))**2
+     >    -((targlen-ECIR-tcm)*sin(thr))**2)
+     >    -sqrt(ECIR**2-((targlen-ECIR-tcm)*sin(thr))**2))
+     >    /7.04                                ! & end cap
+        endif
+      ENDIF
+
+      IF(INDEX(TARGET,'A1ND2NEMPTYUPWIN').GT.0) THEN     ! target geometry for
+                                               ! pol 3He cell
+        ECIR=(0.87/2)*2.54-0.15                ! endcap inner radius (cm
+        ECOR=ECIR+0.015                        ! endcap outer radius (cm
+        TARGLEN=0.015                          ! target length (cm
+        c_1=1.38091E-5                         !up win thickness change
+        c_2=0.110839                           !up win thickness change                                                
+        ENTEC=40.0-ECIR                        ! entrance to end cap (cm
+        TBAL=TBEAM                             ! material bf the target
+        TBEFOR=T                               ! distance traveled bf
+                                               ! vertex
+        tcm=(t*targlen/ttarg)+(40.0/2.0)    ! t in cm
+        if(tcm.lt.0) tcm=0
+        if(tcm.gt.targlen) tcm=targlen
+
+        if((tcm+ECIR/tan(thr)).lt.ENTEC) then  ! e goes through sidewall
+          TAFTER=sin(PI-thr-asin((ECIR+targlen-tcm)*sin(thr)/ECIR))
+     >    *(ECIR/sin(thr))*(ttarg/targlen)     ! glass target(SSA triangle)
+          TAAL=TSPEC+TWALL/sin(thr)            ! material af the target 
+                                               ! & side wall
+        else
+          rho_tar=(sqrt(ECOR**2-((ENTEC-tcm)*sin(thr))**2) 
+     >    +(ENTEC-tcm)*cos(thr))*sin(thr)!distance away tar center
+          TAFTER=                              ! e goes throught end cap
+     >    sin(PI-thr-asin((ECIR+targlen-tcm)*sin(thr)/ECIR))
+     >    *(ECIR/sin(thr))*(ttarg/targlen)     ! glass target(SSA triangle)
+          TAAL=TSPEC                           ! material af the target
+     >    +(sqrt((ECOR+c_1*exp(rho_tar/c_2))**2
+     >    -((ENTEC-tcm)*sin(thr))**2)
+     >    -sqrt(ECIR**2-((ENTEC-tcm)*sin(thr))**2))
+     >    /7.04                                ! & end cap
+        endif
+      ENDIF
+
+      IF(INDEX(TARGET,'A1ND2NEMPTYDOWNWIN').GT.0) THEN     ! target geometry for
+                                               ! pol 3He cell
+        ECIR=(0.87/2)*2.54-0.15                ! endcap inner radius (cm
+        ECOR=ECIR+0.015                        ! endcap outer radius (cm
+        TARGLEN=0.015                          ! target length (cm
+        c_1=1.38091E-5                         !up win thickness change
+        c_2=0.110839                           !up win thickness change                                                
+        ENTEC=40.0-ECIR                        ! entrance to end cap (cm
+        TBAL=TBEAM                             ! material bf the target
+        TBEFOR=T-40.0                          ! distance traveled bf
+                                               ! vertex
+        tcm=(t*targlen/ttarg)+(40.0/2.0)    ! t in cm
+        if(tcm.lt.(40.0)) tcm=40.0
+        if(tcm.gt.40.0+targlen) tcm=targlen+40.0
+
+          rho_tar=ECOR*sin(thr-asin(sin(PI-thr)*(ECIR+tcm-40.0)/ECOR)) 
+                                               !distance away tar center
+          ang_b=asin((ECIR+tcm-40.0)*sin(PI-thr)/(ECOR+c_1*exp(rho_tar/c_2))) 
+                                               !angle b for SSA triangle
+          TAFTER=                              ! e goes throught end cap
+     >    ECIR*sin(PI-ang_b)/sin(ang_b)/7.04   ! glass target(SSA triangle)
+          TAAL=TSPEC                           ! material af the target
+
+      ENDIF
+
+
 
       IF(INDEX(TARGET,'10OLD17').GT.0) THEN    ! target geometry for
                                                ! old 10 cm LH2 and LD2
@@ -3497,8 +3670,8 @@ c changed to do smearing here now
         Z = IZ
         A = IA
 c        call F1F2IN07(Z, A, QQ, WSQnom, F1, F2)
-c        call F1F2IN09(Z, A, QQ, WSQnom, F1, F2)
-      call gsmearing(Z,A,WSQnom,QQ,F1,F2)
+        call F1F2IN09(Z, A, QQ, WSQnom, F1, F2)
+c      call gsmearing(Z,A,WSQnom,QQ,F1,F2)
         W1sm = F1 / MP
         W2sm = F2 / nu
 c need to make xsection per nucleon here!
@@ -4467,7 +4640,44 @@ c      SUBROUTINE READIN_EXT(LEN_FILENAME,FILENAME)
 
 c      OPEN(UNIT=20,FILE=FILENAME(1:LEN_FILENAME))
 c      OPEN(UNIT=20,FILE='input/externals/kpp_shms_488.inp')
-      OPEN(UNIT=20,FILE='input/externals/test.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_short.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_pol_3He.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_A1n_d2n_shms_B.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_A1n_d2n_hms_4.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_A1n_d2n_hms_dflay.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_A1n_d2n_shms_dflay.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_N2_ref_hms_4.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_N2_ref_shms_B.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_up_win_test_hms_4.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_up_win_test_shms_B.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_up_win_O_hms_4.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_up_win_O_shms_B.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_up_win_Si_hms_4.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_up_win_Si_shms_B.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_up_win_Ba_hms_4.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_up_win_Ba_shms_B.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_up_win_Al_hms_4.inp')
+c     OPEN(UNIT=20,FILE='input/externals/test_Empty_up_win_Al_shms_B.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_up_win_Ca_hms_4.inp')
+c     OPEN(UNIT=20,FILE='input/externals/test_Empty_up_win_Ca_shms_B.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_up_win_Sr_hms_4.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_up_win_Sr_shms_B.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_up_win_H_hms_4.inp')
+      OPEN(UNIT=20,FILE='input/externals/test_Empty_up_win_H_shms_B.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_down_win_O_hms_4.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_down_win_O_shms_B.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_down_win_Si_hms_4.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_down_win_Si_shms_B.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_down_win_Ba_hms_4.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_down_win_Ba_shms_B.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_down_win_Al_hms_4.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_down_win_Al_shms_B.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_down_win_Ca_hms_4.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_down_win_Ca_shms_B.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_down_win_Sr_hms_4.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_down_win_Sr_shms_B.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_down_win_H_hms_4.inp')
+c      OPEN(UNIT=20,FILE='input/externals/test_Empty_down_win_H_shms_B.inp')
       READ(20,'(A)') COMMENT(1)
       WRITE(6,'(A)') COMMENT(1)
       READ(20,'(A)') EXTERNAL_RUNPLAN
@@ -17299,11 +17509,11 @@ C         WRITE(*,'('' WARNING[F1990]: OUTSIDE RECOMMENDED RANGE.'')')
 !                                                                               
 ! The three model forms are given by:                                           
 !                                                                               
-!     R_A = A(1)/LOG(Q2/.04)*FAC + A(2)/[Q2ã4+A(3)ã4]ã.25 ;                     
+!     R_A = A(1)/LOG(Q2/.04)*FAC + A(2)/[Q2\E34+A(3)\E34]\E3.25 ;                     
 !     R_B = B(1)/LOG(Q2/.04)*FAC + B(2)/Q2 + B(3)/(Q2**2+.3**2) ;               
-!     R_C = C(1)/LOG(Q2/.04)*FAC + C(2)/[(Q2-Q2thr)ã2+C(3)ã2]ã.5 ,              
-!                               ...where Q2thr = 5(1-X)ã5 ;                     
-!           where FAC = 1+12[Q2/(1+Q2)][.125ã2/(.125ã2+xã2)] gives the          
+!     R_C = C(1)/LOG(Q2/.04)*FAC + C(2)/[(Q2-Q2thr)\E32+C(3)\E32]\E3.5 ,              
+!                               ...where Q2thr = 5(1-X)\E35 ;                     
+!           where FAC = 1+12[Q2/(1+Q2)][.125\E32/(.125\E32+x\E32)] gives the          
 !           x-dependence of the logarithmic part in order to match Rqcd         
 !           at high Q2.                                                         
 !                                                                               
@@ -17330,7 +17540,7 @@ C         WRITE(*,'('' WARNING[F1990]: OUTSIDE RECOMMENDED RANGE.'')')
 !                                                                               
 ! and the total error is returned by the program:                               
 !                                                                               
-!     DR = is the total uncertainty in R, DR = sqrt(D1ã2+D2ã2+D3ã2).            
+!     DR = is the total uncertainty in R, DR = sqrt(D1\E32+D2\E32+D3\E32).            
 !          DR is my best estimate of how well we have measured R.  At           
 !          high Q2, where R is small, DR is typically larger than R.  If        
 !          you have faith in QCD, then, since R1990 = Rqcd at high Q2,          
