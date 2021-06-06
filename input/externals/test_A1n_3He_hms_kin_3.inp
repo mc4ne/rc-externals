@@ -1,0 +1,4 @@
+input files for EXTERNAL: runplan/target/output
+input/grids/littleTest_A1n_kin_3.inp 
+input/targets/A1nd2n.targ_hms
+output/externals/A1n_3He_hms_kin_3_details.out
